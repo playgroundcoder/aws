@@ -35,25 +35,6 @@ lazy val dependencies = new {
   val gson = "com.google.code.gson" % "gson" % "2.8.7"
 }
 
-lazy val styleSettings = {
-  val compileScalastyle = taskKey[Unit]("compileScalastyle")
-  // Create a default Scalastyle task to run with tests
-  val testScalastyle = taskKey[Unit]("testScalastyle")
-  Seq(
-    compileScalastyle := scalastyle.in(Compile).toTask("").value,
-    (Compile / compile) := (Compile / compile).dependsOn(compileScalastyle).value,
-    // Create a default Scalastyle task to run with compile
-    (Compile / scalastyleConfig) := baseDirectory.value / "scalastyle-config.xml",
-    testScalastyle := scalastyle.in(Test).toTask("").value,
-    (Test / test) := (Test / test).dependsOn(testScalastyle).value,
-    // Configure Java source code style checking plugin
-    checkstyleConfigLocation := CheckstyleConfigLocation.File("checkstyle-config.xml"),
-    checkStyleSeverityLevel := Some(CheckstyleSeverityLevel.Error),
-    (Compile / checkstyle) := (Compile / checkstyle).triggeredBy(Compile / compile).value,
-    (Test / checkstyle) := (Test / checkstyle).triggeredBy(Test / compile).value
-  )
-}
-
 lazy val testSettings = Seq(
   // Specify Scalatest style traits for uniformity.
   // All scala test classes should extend this style ONLY.
@@ -62,12 +43,6 @@ lazy val testSettings = Seq(
     "-y", "org.scalatest.PropSpec",
     "-y", "org.scalatest.FunSpec"
   ),
-  Test / testOptions += Tests.Argument(
-    TestFrameworks.ScalaTest,
-    "-l", "AwsTest",
-    "-l", "Slow",
-    "-l", "DbTest"
-  ),
   Test / testOptions += Tests.Argument(TestFrameworks.JUnit, "-v"),
   Test / testOptions ++= Seq(
     Tests.Argument(TestFrameworks.ScalaTest, "-o"),
@@ -75,15 +50,11 @@ lazy val testSettings = Seq(
   ),
   Test / testOptions += Tests.Argument("-oD"), // record test execution time
   Test / parallelExecution := false,
-  Test / fork := true,
+  Test / fork := true
   // Coverage settings
   // Coverage is disabled by default to avoid Scoverage's runtime dependency in application jar.
   // Enable coverage explicitly when needed. `sbt clean coverage test coverageReport`
   // Do not use coverage when publishing jar.
-  Test / coverageEnabled := true,
-  Test / coverageMinimum := 70,
-  Test / coverageFailOnMinimum := false,
-  Test / coverageHighlighting := true
 )
 
 lazy val javacSettings = Seq(
@@ -106,21 +77,6 @@ lazy val assemblySettings = Seq(
   assembly / test := {}
 )
 
-lazy val docSettings = Seq(
-  scalacOptions in (Compile, doc) ++= Seq(
-    "-doc-footer",
-    "epfl",
-    "-diagrams",
-    "-implicits",
-    "-groups",
-    "-doc-version",
-    version.value,
-    "doc-title",
-    description.value
-  ),
-  autoAPIMappings in (Compile, doc) := true
-)
-
 lazy val publishSettings = Seq(
   publishTo := {
     val artifactory = "https://artifactory.com/artifactory/sbt-internalfacing"
@@ -133,10 +89,8 @@ lazy val root = project
   .enablePlugins(JavaAppPackaging)
   .enablePlugins(UniversalPlugin)
   .settings(
-    styleSettings,
     testSettings,
     assemblySettings,
-    docSettings,
     publishSettings,
     javacSettings,
     libraryDependencies ++= Seq(
@@ -159,4 +113,4 @@ lazy val root = project
     )
   )
 
-packageName in Universal := name.value
+Universal / packageName := name.value
