@@ -1,5 +1,7 @@
 // Assembly plugin
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.9")
+// Needed for scalatest, scalactic
+//addSbtPlugin("com.artima.supersafe" % "sbtplugin" % "1.1.12")
 // Check scala source coding style
 addSbtPlugin("org.scalastyle" % "scalastyle-sbt-plugin" % "1.0.0")
 // Check java source coding style

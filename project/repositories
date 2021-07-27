@@ -1,7 +1,0 @@
-[repositories]
-local
-maven: https://repo1.maven.org/maven2/
-maven-central: https://maven.apache.org/
-gradle: https://gradle.org/
-sonatype: https://oss.sonatype.org/content/repositories/releases/
-atlassian: https://maven.atlassian.com/content/repositories/atlassian-public/

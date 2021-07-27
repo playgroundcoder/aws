@@ -9,10 +9,6 @@ scalaVersion := "2.13.6"
 lazy val dependencies = new {
   // Spark
   val sparkVersion = "3.1.2"
-  val sparkCoreProvided = "org.apache.spark" %% "spark-core" % sparkVersion % "provided"
-  val sparkSqlProvided = "org.apache.spark" %% "spark-sql" % sparkVersion % "provided"
-  val sparkHiveProvided = "org.apache.spark" %% "spark-hive" % sparkVersion % "provided"
-  val sparkMlLibProvided = "org.apache.spark" %% "spark-mllib" % sparkVersion % "provided"
   // Command line parser
   val scopt = "com.frugalmechanic" %% "scala-optparse" % "1.1.3"
   // SBT Junit is supported through junit-interface
@@ -22,16 +18,14 @@ lazy val dependencies = new {
   val scalatest = "org.scalatest" %% "scalatest" % "3.2.9" % "test"
   // Generate HTML reports in Scalatest
   val flexmark = "com.vladsch.flexmark" % "flexmark-all" % "0.62.2"
-  // Spark testing framework
-  val sparkTesting = "com.holdenkarau" %% "spark-testing-base" % "3.0.0_1.0.0" % "test"
   // fastUtils is an efficient type specific collection library
   val fastUtils = "it.unimi.dsi" % "fastutil" % "8.5.4"
   // AWS
-  val awsCore = "software.amazon.awssdk" % "aws-core" % "2.16.82"
-  val awsS3 = "software.amazon.awssdk" % "s3" % "2.16.82"
-  val hadoopAws = "org.apache.hadoop" % "hadoop-aws" % "3.3.0" % Test
+  val awsCore = "software.amazon.awssdk" % "aws-core" % "2.15.5"
+  val awsApacheHttp = "software.amazon.awssdk" % "apache-client" % "2.17.5"
+  val awsProtocolCore = "software.amazon.awssdk" % "protocol-core" % "2.17.5"
+  val awsS3 = "software.amazon.awssdk" % "s3" % "2.17.5"
   // Json/Gson options
-  val playJson = "com.typesafe.play" %% "play-json" % "2.13"
   val gson = "com.google.code.gson" % "gson" % "2.8.7"
 }
 
@@ -94,22 +88,17 @@ lazy val root = project
     publishSettings,
     javacSettings,
     libraryDependencies ++= Seq(
-      dependencies.sparkCoreProvided,
-      dependencies.sparkSqlProvided,
-      dependencies.sparkHiveProvided,
-      dependencies.sparkMlLibProvided,
       dependencies.scopt,
       dependencies.junit,
       dependencies.scalactic,
       dependencies.scalatest,
       dependencies.flexmark,
-      dependencies.sparkTesting,
       dependencies.fastUtils,
       dependencies.awsCore,
+      dependencies.awsApacheHttp,
+      dependencies.awsProtocolCore,
       dependencies.awsS3,
-      dependencies.hadoopAws,
-      dependencies.playJson,
-      dependencies.gson,
+      dependencies.gson
     )
   )
 
