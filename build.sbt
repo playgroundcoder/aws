@@ -2,7 +2,7 @@ import scala.language.postfixOps
 
 name := "aws"
 
-organization := "com.playgroundcoder.aws"
+organization := "com.playgroundcoder"
 
 scalaVersion := "2.13.6"
 
